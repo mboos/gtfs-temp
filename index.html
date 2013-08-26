@@ -109,7 +109,7 @@
         
         var layer;
         $.getJSON('census_transp.topojson', function(data) {
-          geodata = topojson.feature(data, data.objects['census_transp']);
+          geodata = topojson.feature(data, data.objects['census_transp.shp']);
           layer = L.geoJson(geodata, {style: function(feature) {
               return {opacity: 2 * feature.TransitShare};
             }});
