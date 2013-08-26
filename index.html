@@ -86,12 +86,12 @@
         
             var div = L.DomUtil.create('div', 'info legend');
             
-            datasets.map(function(dataset) {
+            /*datasets.map(function(dataset) {
               div.innerHTML += '<input type="checkbox" id="' +
                 dataset.ref + '" name="a" value="b"/><a href="' +
                 dataset.href + '">' + dataset.name + '</a><br/>'
               
-            });
+            });*/
             div.innerHTML += '* <small>Contains information licensed under<br/>the Open Government Licence - Ontario.</small>'
             
             return div;
