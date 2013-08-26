@@ -108,7 +108,7 @@
         title.addTo(map);
         
         var layer;
-        $.getJSON('census_transp.json', function(data) {
+        $.getJSON('census_transp.topojson', function(data) {
           geodata = topojson.feature(data, data.objects['census_transp']);
           layer = L.geoJson(geodata, {style: function(feature) {
               return {opacity: 2 * feature.TransitShare};
