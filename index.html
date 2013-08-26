@@ -113,6 +113,7 @@
           layer = L.geoJson(geodata, {style: function(feature) {
               return {opacity: 2 * feature.TransitShare};
             }});
+          layer.addTo(map);
         });
         
         /*datasets.map(function(dataset) {
