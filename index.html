@@ -66,375 +66,6 @@
           layer.bindPopup(html, {closeButton:false});
         }
       }
-      
-      
-      datasets = [
-        {
-          name: 'GRT Routes',
-          url: 'grt_routes.topojson',
-          ref: 'grt_routes',
-          href: 'http://www.regionofwaterloo.ca/en/regionalGovernment/GRT_Routes.asp',
-          style: function(feature) {
-            return { color: '#' + Math.floor(Math.random()*16777215).toString(16)};
-          }
-        },
-        {
-          name: 'GRT Stops',
-          url: 'grt_stops.topojson',
-          ref: 'grt_stops',
-          href: 'http://www.regionofwaterloo.ca/en/regionalGovernment/GRT_Stops.asp',
-          icon: function(f) { return 'icons/bus-12.png' }, 
-          style: function(feature) {
-            return {};
-          }
-        },
-        {
-          name: 'Blue W Program Locations',
-          url: 'BlueW.topojson',
-          ref: 'BlueW',
-          href: 'http://www.regionofwaterloo.ca/en/regionalGovernment/blue_w_program_locations.asp',
-          icon: function(f) { return 'icons/water-12.png' }, 
-          style: function(feature) {
-            return {};
-          }
-        },
-        {
-          name: 'Water Wagon',
-          url: 'water_wagon.json',
-          ref: 'water_wagon',
-          href: 'http://regionofwaterloo.ca/en/regionalGovernment/water_wagon_schedule_2013.asp',
-          icon: function(f) { return 'icons/glass-12.png' }, 
-          style: function(feature) {
-            return {};
-          }
-        },
-        {
-          name: 'Creeks',
-          url: 'creeks.topojson',
-          ref: 'creeks',
-          href: 'http://www.regionofwaterloo.ca/en/regionalGovernment/Creeks.asp',
-          style: function(feature) {
-            return { color: '#6CF'};
-          }
-        },
-        {
-          name: 'Rivers',
-          url: 'rivers.topojson',
-          ref: 'rivers',
-          href: 'http://www.regionofwaterloo.ca/en/regionalGovernment/Rivers.asp',
-          style: function(feature) {
-            return { color: '#369'};
-          }
-        },
-        {
-          name: 'Buildings*',
-          url: 'buildings.topojson',
-          ref: 'buildings',
-          href: 'http://www.ontario.ca/environment-and-energy/building-scale',
-          style: function(feature) {
-            return {
-              color: '#999',
-              weight: 1
-            };
-          }
-        },
-        {
-          name: 'Doors Open Waterloo Region 2013',
-          url: 'doors_open_2013.json',
-          ref: 'doors_open_2013',
-          href: 'http://www.regionofwaterloo.ca/en/regionalGovernment/doorsopen2013.asp',
-          icon: function(f) { return 'icons/town-hall-12.png' }, 
-          style: function(feature) {
-            return {};
-          }
-        },
-        {
-          name: 'Food Facilities',
-          url: 'food_facilities.topojson',
-          ref: 'food_facilities',
-          href: 'http://www.regionofwaterloo.ca/en/regionalGovernment/FoodPremiseDataset.asp',
-          icon: function(f) { return 'icons/restaurant-12.png' }, 
-          style: function(feature) {
-            return {};
-          }
-        },
-        {
-          name: 'Regional Libraries',
-          url: 'regional_libraries.json',
-          ref: 'regional_libraries',
-          href: 'http://www.regionofwaterloo.ca/en/regionalGovernment/RegionalLibraries.asp',
-          icon: function(f) { return 'icons/library-12.png' }, 
-          style: function(feature) {
-            return {};
-          }
-        },
-        {
-          name: 'Waterloo Facilities',
-          url: 'waterloo_facilities.topojson',
-          ref: 'waterloo_facilities',
-          href: 'http://cityofwaterlooopendata.cloudapp.net/DataBrowser/CityOfWaterlooOpenData/Facilities',
-          icon: function(f) {
-            if (f.properties.TYPE == 'Sports or Recreation') {
-              if (f.properties.FACILITY.indexOf('Golf') >= 0) {
-                return 'icons/golf-12.png'
-              }
-              return 'icons/pitch-12.png'
-            } else if (f.properties.TYPE == 'Fire Hall') {
-              return 'icons/fire-station-12.png'
-            } else if (f.properties.TYPE == 'Community Centre') {
-              return 'icons/warehouse-12.png'
-            } else if (f.properties.TYPE == 'Arts or Cultural Fac') {
-              if (f.properties.FACILITY.indexOf('Mus') >= 0) {
-                return 'icons/museum-12.png'
-              } else if (f.properties.FACILITY.indexOf('Libr') >= 0) {
-                return 'icons/library-12.png'
-              } else if (f.properties.FACILITY == 'Public Square') {
-                return 'icons/monument-12.png'
-              } else {
-                return 'icons/art-gallery-12.png'
-              }
-            } else if (f.properties.TYPE == 'City Administration') {
-              if (f.properties.FACILITY.indexOf('Service') >= 0) {
-                return 'icons/warehouse-12.png'
-              } else {
-                return 'icons/town-hall-12.png'
-              }
-            } else if (f.properties.TYPE == 'Shopping Centre') {
-              return 'icons/shop-12.png'
-            } else if (f.properties.TYPE == 'Cemetery') {
-              return 'icons/cemetery-12.png'
-            }            
-            return 'icons/marker-stroked-12.png'
-          }, 
-          style: function(feature) {
-            return {};
-          }
-        },
-        {
-          name: 'Waterloo Parks',
-          url: 'waterloo_parks.topojson',
-          ref: 'waterloo_parks',
-          href: 'http://cityofwaterlooopendata.cloudapp.net/DataBrowser/CityOfWaterlooOpenData/Parks',
-          style: function(feature) {
-            return { color: '#0f0'};
-          }
-        },
-        {
-          name: 'Waterloo Heritage Buildings',
-          url: 'waterloo_heritage_buildings.topojson',
-          ref: 'waterloo_heritage_buildings',
-          href: 'http://cityofwaterlooopendata.cloudapp.net/DataBrowser/CityOfWaterlooOpenData/HeritageBuildings',
-          icon: function(f) { return 'icons/building-12.png' }, 
-          style: function(feature) {
-            return {};
-          }
-        },
-        {
-          name: 'Waterloo Places of Worship',
-          url: 'waterloo_places_of_worship.json',
-          ref: 'waterloo_places_of_worship',
-          href: 'http://cityofwaterlooopendata.cloudapp.net/DataBrowser/CityOfWaterlooOpenData/PlacesofWorship',
-          icon: function(f) { return 'icons/place-of-worship-12.png' }, 
-          style: function(feature) {
-            return {};
-          }
-        },
-        {
-          name: 'Waterloo Points of Interest',
-          url: 'waterloo_poi.json',
-          ref: 'waterloo_poi',
-          href: 'http://cityofwaterlooopendata.cloudapp.net/DataBrowser/CityOfWaterlooOpenData/PointsofInterest',
-          icon: function(f) {
-            if (f.properties.LABEL.indexOf('University') >= 0 ||
-                f.properties.LABEL.indexOf('College') >= 0) {
-              return 'icons/college-12.png'
-            } else if (f.properties.LABEL.indexOf('Waste') >= 0 ||
-                f.properties.LABEL.indexOf('Landfill') >= 0) {
-              return 'icons/waste-basket-12.png'
-            }
-            return 'icons/marker-stroked-12.png'
-          }, 
-          style: function(feature) {
-            return {};
-          }
-        },
-        {
-          name: 'Waterloo Urban Design Awards',
-          url: 'waterloo_urban_design_awards.json',
-          ref: 'waterloo_urban_design_awards',
-          href: 'http://cityofwaterlooopendata.cloudapp.net/DataBrowser/CityOfWaterlooOpenData/UrbanDesignAwards',
-          icon: function(f) {
-            return 'icons/star-stroked-12.png'
-          }, 
-          style: function(feature) {
-            return {};
-          }
-        },
-        {
-          name: 'Regional Boundaries',
-          url: 'regional_boundaries.topojson',
-          ref: 'regional_boundaries',
-          href: 'http://www.regionofwaterloo.ca/en/regionalGovernment/RegionalBoundary.asp',
-          style: function(feature) {
-            if (feature.properties.Municipali == 'Kitchener') {
-              return { color: '#006f4c'};
-            } else if (feature.properties.Municipali == 'Waterloo') {
-              return { color: '#333'};
-            } else if (feature.properties.Municipali == 'Cambridge') {
-              return { color: '#d49b1d'};
-            } else if (feature.properties.Municipali == 'Wilmot') {
-              return { color: '#00418F'};
-            } else if (feature.properties.Municipali == 'Wellesley') {
-              return { color: '#886'};
-            } else if (feature.properties.Municipali == 'Woolwich') {
-              return { color: '#a90000'};
-            } else if (feature.properties.Municipali == 'North Dumfries') {
-              return { color: '#28609a'};
-            } 
-            return {};
-          }
-        },
-        {
-          name: 'Ward Boundaries',
-          url: 'ward_boundaries.topojson',
-          ref: 'ward_boundaries',
-          href: 'http://www.regionofwaterloo.ca/en/regionalGovernment/WardBoundaries.asp',
-          style: function(feature) {
-            return { color: '#' + Math.floor(Math.random()*16777215).toString(16) };
-          }
-        },
-        {
-          name: 'Waterloo Wards 2010',
-          url: 'waterloo_wards_2010.topojson',
-          ref: 'waterloo_wards_2010',
-          href: 'http://cityofwaterlooopendata.cloudapp.net/DataBrowser/CityOfWaterlooOpenData/Wards2010',
-          style: function(feature) {
-            return { color: '#' + Math.floor(Math.random()*16777215).toString(16) };
-          }
-        },
-        {
-          name: 'Settlements',
-          url: 'settlements.topojson',
-          ref: 'settlements',
-          href: 'http://www.regionofwaterloo.ca/en/regionalGovernment/Settlements.asp',
-          style: function(feature) {
-            return { color: '#' + Math.floor(Math.random()*16777215).toString(16) };
-          }
-        },
-        {
-          name: 'Regional Cycling',
-          url: 'regional_cycling.topojson',
-          ref: 'regional_cycling',
-          href: 'http://www.regionofwaterloo.ca/en/regionalGovernment/RegionalCycling.asp',
-          style: function(feature) {
-            if (feature.properties.PathType == 'Bike Lane') {
-              return { color: '#f00', weight: feature.properties.Width*4};
-            } else if (feature.properties.PathType == 'Wide Curb Lane') {
-              return { color: '#990', weight: (feature.properties.Width-3.3)*4};
-            } else if (feature.properties.PathType == 'Paved Shoulder') {
-              return { color: '#f00', dashArray: '5, 8', weight: feature.properties.Width*2};
-            } else if (feature.properties.PathType == 'Off-Road Multi-Use Trail') {
-              return { color: '#00f', weight: feature.properties.Width*2};
-            } else if (feature.properties.PathType == 'Shared Bike\/MV Lane') {
-              return { color: '#990', dashArray: '5, 8', weight: (feature.properties.Width-3.3)*4};
-            } else if (feature.properties.PathType == 'Shared Bike\/Parking Lane') {
-              return { color: '#f00', dashArray: '3, 5', weight: feature.properties.Width*2};
-            } else if (feature.properties.PathType == 'Boulevard Multi-Use Trail') {
-              return { color: '#00f', weight: feature.properties.Width*2};
-            }
-            return { color: 'black' };
-          }
-        },
-        {
-          name: 'Waterloo Bicycle Lanes',
-          url: 'waterloo_cycling.topojson',
-          ref: 'waterloo_cycling',
-          href: 'http://cityofwaterlooopendata.cloudapp.net/DataBrowser/CityOfWaterlooOpenData/BicycleLanes',
-          style: function(feature) {
-            if (feature.properties.FACILITY == 'BL') {
-              return { color: '#f00'};
-            } else if (feature.properties.FACILITY == 'SR') {
-              return { color: '#990'};
-            } else if (feature.properties.FACILITY == 'PS') {
-              return { color: '#f00', dashArray: '5, 8'};
-            } 
-            return { color: 'black' };
-          }
-        },
-        {
-          name: 'Waterloo Trails',
-          url: 'waterloo_trails.topojson',
-          ref: 'waterloo_trails',
-          href: 'http://cityofwaterlooopendata.cloudapp.net/DataBrowser/CityOfWaterlooOpenData/Trails',
-          style: function(feature) {
-            if (feature.properties.PATH_TYPE == 'Sidewalk' ||
-                feature.properties.PATH_TYPE == 'Walkway') {
-              return { color: '#999', weight: 2};
-            } else if (feature.properties.PATH_TYPE == 'Community Trail') {
-              return { color: '#00f', dashArray: '5, 8'};
-            } else if (feature.properties.PATH_TYPE == 'Multi Use') {
-              return { color: '#00f'};
-            } 
-            return { color: 'black' };
-          }
-        },
-        {
-          name: 'Waterloo Roads',
-          url: 'waterloo_roads.topojson',
-          ref: 'waterloo_roads',
-          href: 'http://cityofwaterlooopendata.cloudapp.net/DataBrowser/CityOfWaterlooOpenData/Roads',
-          style: function(feature) {
-            if (feature.properties.STREET_CLA == 'CITY ROAD') {
-              return { color: '#333', weight: 2};
-            } else if (feature.properties.STREET_CLA == 'MAJOR COLLECTOR') {
-              return { color: '#333', weight: 5};
-            } else if (feature.properties.STREET_CLA == 'MINOR COLLECTOR') {
-              return { color: '#333', weight: 3};
-            } else if (feature.properties.STREET_CLA == 'REGIONAL ARTERIAL') {
-              return { color: '#933', weight: 8};
-            } else if (feature.properties.STREET_CLA == 'CITY ARTERIAL') {
-              return { color: '#333', weight: 6};
-            } else if (feature.properties.STREET_CLA == 'EXPRESSWAY') {
-              if (feature.properties.STREET_TYP == 'RAMP') {
-                return { color: '#939', weight: 3};
-              } else {
-                return { color: '#939', weight: 10};
-              }
-            } else if (feature.properties.STREET_CLA == 'PRIVATE') {
-              return { color: '#333', weight: 1};
-            }
-            return { color: 'black' };
-          }
-        },
-        {
-          name: 'Waterloo Railways',
-          url: 'waterloo_railways.topojson',
-          ref: 'waterloo_railways',
-          href: 'http://cityofwaterlooopendata.cloudapp.net/DataBrowser/CityOfWaterlooOpenData/Railways',
-          style: function(feature) {
-            return { color: 'black', dashArray: '5, 8' };
-          }
-        },
-        {
-          name: 'Waste Depots',
-          url: 'waste_depots.json',
-          ref: 'waste_depots',
-          href: 'http://www.regionofwaterloo.ca/en/regionalGovernment/WasteDepots.asp',
-          icon: function(f) { return 'icons/waste-basket-12.png' }, 
-          style: function(feature) {
-            return {};
-          }
-        },
-        {
-          name: 'Waste Pickup Schedule',
-          url: 'waste_pickup_schedule.topojson',
-          ref: 'waste_pickup_schedule',
-          href: 'http://www.regionofwaterloo.ca/en/regionalGovernment/WasteCollectionSchedule.asp',
-          style: function(feature) {
-            return { color: '#' + Math.floor(Math.random()*16777215).toString(16) };
-          }
-        }
-      ];
         
       $(document).ready(function(){
         var map = L.map('map', {
@@ -442,8 +73,8 @@
           zoom: 13,
           maxBounds: [[43.2615,-80.8698],[43.7,-80.161]]});
         
-        L.tileLayer('http://maps.tritag.ca/smartgrowth/{z}/{x}/{y}.png', {
-            attribution: 'Base map &copy; <a href="http://openstreetmap.org">OpenStreetMap contributors, ODbL</a> | Website created by <a href="http://real.uwaterloo.ca/~mboos">Mike Boos</a> | <a href="https://github.com/mboos/wr-opendata">Source</a>',
+        L.tileLayer('http://maps.tritag.ca/bike/{z}/{x}/{y}.png', {
+            attribution: 'Base map &copy; <a href="http://openstreetmap.org">OpenStreetMap contributors, ODbL</a> | Website created by <a href="http://real.uwaterloo.ca/~mboos">Mike Boos</a>',
             minZoom: 10
         }).addTo(map);
         
@@ -471,12 +102,20 @@
         var title = L.control({position: 'topright'});
         title.onAdd = function(map) {
           var div = L.DomUtil.create('div', 'titleDiv');
-          div.innerHTML += 'Waterloo Region Open Data Browser';
+          div.innerHTML += 'Census Transportation Mode Data';
           return div
         }
         title.addTo(map);
         
-        datasets.map(function(dataset) {
+        var layer;
+        $.getJSON('census_transp.json', function(data) {
+          geodata = topojson.feature(data, data.objects['census_transp']);
+          layer = L.geoJson(geodata, {style: function(feature) {
+              return {opacity: 2 * feature.TransitShare};
+            }});
+        });
+        
+        /*datasets.map(function(dataset) {
           $('#'+dataset.ref).change(function() {
             if (this.checked) {
               if (dataset.layer) {
@@ -512,7 +151,7 @@
               map.removeLayer(dataset.layer);
             }
           });
-        });
+        });*/
       });
     </script>
     <script>
