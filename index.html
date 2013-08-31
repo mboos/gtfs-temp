@@ -1,6 +1,6 @@
 <html>
   <head>
-    <title>Open Data Sets in Waterloo Region</title>
+    <title>Census Transportation Mode Data in Waterloo Region</title>
     <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.6.4/leaflet.css" />
     <!--[if lte IE 8]>
       <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.6.4/leaflet.ie.css" />
@@ -60,22 +60,94 @@
         if (feature.properties) {
           html = '<table>'
           $.each(feature.properties, function( k, v ) {
-            html += '<tr><th>' + k + '</td><td>' + v + '</td></tr>';
+            
+            html += '<tr><th>' + k + '</td><td>'
+            if (k.indexOf('Share') == -1) {
+              html += v + '</td></tr>';
+            } else if (typeof v == 'number') {
+              html += (100.0 * v).toFixed(1) + '%</td></tr>';
+            } else {
+              html += 'No data</td></tr>';
+            }
           });
           html+= '</table>';
           layer.bindPopup(html, {closeButton:false});
         }
       }
+      
+      function bikeStyle(feature) {
+        if (feature.properties.Route) {
+          return {weight: 1e-9}
+        }
+        if (feature.properties.BikeShare != null) {
+          return {fillOpacity: 8.0*feature.properties.BikeShare, weight: 1};
+        }
+        return {fillColor: '#999', weight: 0, fillOpacity: 0.6};
+      }
+      
+      function walkStyle(feature) {
+        if (feature.properties.Route) {
+          return {weight: 1e-9}
+        }
+        if (feature.properties.WalkShare != null) {
+          return {fillOpacity: 3.0*feature.properties.WalkShare, weight: 1};
+        }
+        return {fillColor: '#999', weight: 0, fillOpacity: 0.6};
+      }
+      
+      function transitStyle(feature) {
+        if (feature.properties.Route) {
+          return {
+            weight: 3,
+            color: '#' + Math.floor(Math.random()*16777215).toString(16)
+          }
+        }
+        if (feature.properties.TransitShare != null) {
+          return {fillOpacity: 3.0*feature.properties.TransitShare, weight: 1};
+        }
+        return {fillColor: '#999', weight: 0, fillOpacity: 0.6};
+      }
+      
+      function driverStyle(feature) {
+        if (feature.properties.Route) {
+          return {weight: 1e-9}
+        }
+        if (feature.properties.DriverShare != null) {
+          return {fillOpacity: feature.properties.DriverShare-0.4, weight: 1};
+        }
+        return {fillColor: '#999', weight: 0, fillOpacity: 0.6};
+      }
+      
+      function passengerStyle(feature) {
+        if (feature.properties.Route) {
+          return {weight: 1e-9}
+        }
+        if (feature.properties.PassengerShare != null) {
+          return {fillOpacity: 5.0*feature.properties.PassengerShare, weight: 1};
+        }
+        return {fillColor: '#999', weight: 0, fillOpacity: 0.6};
+      }
         
       $(document).ready(function(){
+        
+        mapStyles = [
+                      {name: 'Bicycle', fn: bikeStyle},
+                      {name: 'Walk', fn: walkStyle},
+                      {name: 'Transit', fn: transitStyle},
+                      {name: 'Driver', fn: driverStyle},
+                      {name: 'Passenger', fn: passengerStyle},
+                    ];
+        
         var map = L.map('map', {
           center: [43.452763, -80.484453],
           zoom: 13,
           maxBounds: [[43.2615,-80.8698],[43.7,-80.161]]});
         
         L.tileLayer('http://maps.tritag.ca/bike/{z}/{x}/{y}.png', {
-            attribution: 'Base map &copy; <a href="http://openstreetmap.org">OpenStreetMap contributors, ODbL</a> | Website created by <a href="http://real.uwaterloo.ca/~mboos">Mike Boos</a>',
-            minZoom: 10
+            attribution: 'Base map &copy; <a href="http://openstreetmap.org">OpenStreetMap contributors, ODbL</a>'
+            + ' | Data source: <a href="http://www12.statcan.gc.ca/nhs-enm/2011/dp-pd/prof/index.cfm?Lang=E" title="Adapted from Statistics Canada, National Household Survey, 2011. This does not constitute an endorsement by Statistics Canada of this product.">Statistics Canada</a>'
+            + ' | Website created by <a href="http://real.uwaterloo.ca/~mboos">Mike Boos</a>',
+            minZoom: 8
         }).addTo(map);
         
         L.control.scale().addTo(map);
@@ -86,17 +158,14 @@
         
             var div = L.DomUtil.create('div', 'info legend');
             
-            /*datasets.map(function(dataset) {
-              div.innerHTML += '<input type="checkbox" id="' +
-                dataset.ref + '" name="a" value="b"/><a href="' +
-                dataset.href + '">' + dataset.name + '</a><br/>'
-              
-            });*/
-            div.innerHTML += 'Statistics Canada. 2013. National Household Survey (NHS) Profile. '
-             + '2011 National Household Survey. Statistics Canada Catalogue no. 99-004-XWE. '
-             + 'Ottawa. Released June 26, 2013. '
-             + '<a href="http://www12.statcan.gc.ca/nhs-enm/2011/dp-pd/prof/index.cfm?Lang=E">http://www12.statcan.gc.ca/nhs-enm/2011/dp-pd/prof/index.cfm?Lang=E</a> '
-             + '(accessed August 25, 2013).';
+            checked = ' checked="checked"';
+            mapStyles.map(function(mapStyle) {
+              div.innerHTML += '<input type="radio" id="' +
+                mapStyle.name + '" name="layerSelect" value="' +
+                mapStyle.name + '"' + checked + '/>' +  mapStyle.name + '<br/>';
+              checked = '';
+            });
+            div.innerHTML += ' ';
             
             return div;
         };
@@ -114,50 +183,28 @@
         var layer;
         $.getJSON('census_transp.topojson', function(data) {
           geodata = topojson.feature(data, data.objects['census_transp.shp']);
-          layer = L.geoJson(geodata, {style: function(feature) {
-              console.log(feature.properties.TransitShare);
-              return {fillOpacity: 2.0*feature.properties.TransitShare, weight: 0};
-            }});
+          layer = L.geoJson(geodata, {style: bikeStyle,
+                            onEachFeature: onEachFeature
+            });
           layer.addTo(map);
         });
         
-        /*datasets.map(function(dataset) {
-          $('#'+dataset.ref).change(function() {
-            if (this.checked) {
-              if (dataset.layer) {
-                dataset.layer.addTo(map);
-              } else {
-                $.getJSON(dataset.url, function(data) {
-                  dataset.data = data;
-                  if (dataset.url.indexOf('topojson') > 0) {
-                    geodata = topojson.feature(data, data.objects[dataset.ref]);
-                  } else {
-                    geodata = data
-                  }
-                  if (dataset.icon) {
-                    dataset.layer = L.geoJson(geodata, {
-                      style: dataset.style,
-                      pointToLayer: function(feature, latlng) {
-                        return L.marker(latlng, {icon:
-                                        L.icon({ iconUrl: dataset.icon(feature),
-                                                iconSize: [12, 12],
-                                                iconAnchor: [6, 6],
-                                                popupAnchor: [0, -7],})
-                                        });
-                      },
-                      onEachFeature: onEachFeature}).addTo(map);
-                  } else {
-                    dataset.layer = L.geoJson(geodata, {
-                      style: dataset.style,
-                      onEachFeature: onEachFeature}).addTo(map);
-                  }
-                });
-              }
-            } else {
-              map.removeLayer(dataset.layer);
+        $.getJSON('grt_routes.topojson', function(data) {
+          geodata = topojson.feature(data, data.objects['grt_routes']);
+          layer.addData(geodata);
+        });
+        
+        
+
+        $('input[name="layerSelect"]').change(function() {
+          value = $("input[name='layerSelect']:checked").val();
+          mapStyles.map(function(mapStyle) {
+            if (mapStyle.name == value) {
+              layer.setStyle(mapStyle.fn);
             }
           });
-        });*/
+        });
+
       });
     </script>
     <script>
